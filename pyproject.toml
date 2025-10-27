@@ -1,0 +1,21 @@
+[project]
+name = "analytics-server"
+version = "0.1.0"
+description = "SmartFactory analytics server for ingesting equipment time-series data"
+authors = [
+    {name = "Lucas Silva",email = "lucasnathandev@proton.me"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi (>=0.120.0,<0.121.0)",
+    "uvicorn (>=0.38.0,<0.39.0)",
+    "pyyaml (>=6.0.3,<7.0.0)",
+    "opcua (>=0.98.13,<0.99.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

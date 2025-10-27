@@ -1,0 +1,28 @@
+server:
+  name: "SmartFactoryAnalyticsServer"
+  version: "1.0.0"
+  debug: false
+
+opcua:
+  endpoint: "opc.tcp://localhost:4840"
+  security_policy: "Basic256Sha256"
+  message_rate: 1.0  # segundos
+
+historian:
+  enabled: true
+  connection_string: "DRIVER={SQL Server};SERVER=localhost;DATABASE=Historian" #ODBC
+  query_interval: 300  # segundos
+
+analytics:
+  model_path: "./models/predictive_model.pkl"
+  prediction_interval: 60  # segundos
+
+data_collection:
+  enabled: true
+  endpoint: "http://localhost:8000/api/telemetry"
+  api_key: "your_api_key_here"
+  send_interval: 30  # segundos
+
+logging:
+  level: "INFO"
+  file_path: "./logs/smart_factory.log"
