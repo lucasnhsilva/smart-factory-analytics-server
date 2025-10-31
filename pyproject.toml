@@ -1,5 +1,5 @@
 [project]
-name = "analytics-server"
+name = "app"
 version = "0.1.0"
 description = "SmartFactory analytics server for ingesting equipment time-series data"
 authors = [

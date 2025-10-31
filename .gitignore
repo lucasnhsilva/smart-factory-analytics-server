@@ -1,0 +1,89 @@
+# ====================================
+# Python + Poetry .gitignore
+# ====================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+*.env
+poetry.lock.bak
+
+# Poetry build artifacts
+dist/
+build/
+site/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Logs and debug
+*.log
+*.pot
+*.mo
+*.pid
+*.gz
+*.swp
+
+# IDE / Editor settings
+.vscode/
+.idea/
+*.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Local configuration overrides
+*.local
+*.secret
+*.bak
+
+# Profiling data
+.prof
+
+# Docker / Compose
+*.pid
+*.log
+docker-compose.override.yml
+
+# MyPy / Ruff / Pyright caches
+.mypy_cache/
+.ruff_cache/
+.pyright/
+.dmypy.json
+
+# Coverage / test outputs
+.coverage
+.cache/
+.pytest_cache/
+
+# Optional: if using FastAPI + Uvicorn auto-reload temp files
+*.reload*
+
+# ====================================
+# End of file
+# ====================================
