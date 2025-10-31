@@ -1,27 +1,34 @@
 server:
   name: "SmartFactoryAnalyticsServer"
-  version: "1.0.0"
-  debug: false
+  version: "0.2.0"
+  debug: true
 
 opcua:
-  endpoint: "opc.tcp://localhost:4840"
-  security_policy: "Basic256Sha256"
-  message_rate: 1.0  # segundos
-
-historian:
-  enabled: true
-  connection_string: "DRIVER={SQL Server};SERVER=localhost;DATABASE=Historian" #ODBC
-  query_interval: 300  # segundos
-
-analytics:
-  model_path: "./models/predictive_model.pkl"
-  prediction_interval: 60  # segundos
+  max_connections: 10
+  default_timeout: 10
+  retry_attempts: 0  # Ou 0 para infinito
+  retry_delay: 3.0
+  monitoring_interval: 5.0
+  max_concurrent_connections: 3
+  
+  servers:
+    - name: "PLC_Line_1"
+      endpoint: "opc.tcp://localhost:4840"  # Use localhost para teste
+      security_policy: "None"  # Comece com "None" para teste
+      username: null
+      password: null
+      
+    - name: "PLC_Line_2" 
+      endpoint: "opc.tcp://localhost:4841"  # Porta diferente se tiver outro servidor
+      security_policy: "None"  # Comece com "None"
+      username: null
+      password: null
 
 data_collection:
   enabled: true
   endpoint: "http://localhost:8000/api/telemetry"
   api_key: "your_api_key_here"
-  send_interval: 30  # segundos
+  send_interval: 30
 
 logging:
   level: "INFO"

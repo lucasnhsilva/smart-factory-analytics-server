@@ -1,20 +1,38 @@
 from fastapi import FastAPI
-from app.routers import health, data
-from app.utils.config import load_config
-# Configuration
-config = load_config()
+from contextlib import asynccontextmanager
+from app.routers import health, config as config_router, opcua  # Renomear para evitar conflito
+from app.utils.config_loader import load_config
+from app.services.opcua_manager import opcua_manager
 
-# App bootstrapping
+
+config = load_config()
+apiprefix = "/api/v1"
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    print("Inicializando SmartFactoryAnalyticsServer...")
+    await opcua_manager.initialize()
+    yield
+    # Shutdown
+    print("Desligando SmartFactoryAnalyticsServer...")
+    await opcua_manager.shutdown()
+
 app = FastAPI(
     title=config['server']['name'],
     version=config['server']['version'],
-    debug=config['server']['debug']
+    debug=config['server']['debug'],
+    lifespan=lifespan
 )
 
-# Routes
-app.include_router(health.router, tags=["health"])
-app.include_router(data.router, tags=["data"])
+app.include_router(health.router, prefix=apiprefix, tags=["health"])
+app.include_router(config_router.router, prefix=apiprefix, tags=["config"])
+app.include_router(opcua.router, prefix=apiprefix, tags=["opcua"])
 
 @app.get("/")
 async def root():
-    return {"message": "SmartFactoryAnalyticsServer is running!"}
+    return {
+        "message": "SmartFactoryAnalyticsServer está rodando!",
+        "version": config['server']['version'],
+        "active_opcua_connections": opcua_manager.get_active_connections_count()
+    }
