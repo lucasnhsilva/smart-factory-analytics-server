@@ -122,7 +122,7 @@ class OPCUAManager:
             self.clients[server_name] = client
             self.connection_metrics[server_name].status = OPCUAConnectionStatus.CONNECTED
             
-            subscription = await client.create_subscription(period=1000, publishing=True)
+            subscription = await client.create_subscription(period=1000, publishing=True, handler=None)
             self.subscriptions[server_name] = subscription
             self.connection_metrics[server_name].active_subscriptions = 1
             
@@ -160,8 +160,8 @@ class OPCUAManager:
                         logger.warning(f"Conexão perdida com {server_name}: {e}")
                         self.connection_metrics[server_name].status = OPCUAConnectionStatus.ERROR
                         self.connection_metrics[server_name].last_error = str(e)
-                        
                         server_config = next((s for s in servers if s['name'] == server_name), None)
+                        print(server_config)
                         if server_config:
                             asyncio.create_task(self._connect_to_server_with_retry(server_config))
                 
@@ -219,6 +219,11 @@ class OPCUAManager:
     def has_active_connections(self) -> bool:
         """Indica se há conexões ativas."""
         return len(self.clients) > 0
+    async def get_server_namespaces(self, server_name: str) -> List[Dict[str, Any]]:
+        """Obtém todos os namespaces do servidor"""
+        from app.services.opcua_explorer import OPCUAExplorer
+        explorer = OPCUAExplorer(self)
+        return await explorer.get_all_namespaces(server_name)
     
     async def shutdown(self):
         """Desliga o gerenciador e encerra conexões graciosamente."""
@@ -247,6 +252,23 @@ class OPCUAManager:
             await asyncio.gather(*disconnect_tasks, return_exceptions=True)
         
         logger.info("OPC UA Manager desligado com sucesso.")
+    async def browse_nodes(self, server_name: str, node_id: str = "i=84") -> List[Dict[str, Any]]:
+        """Navega pelos nós do servidor (interface para o explorer)"""
+        from app.services.opcua_explorer import OPCUAExplorer
+        explorer = OPCUAExplorer(self)
+        return await explorer.browse_server_nodes(server_name, node_id)
+    
+    async def get_server_variables(self, server_name: str) -> List[Dict[str, Any]]:
+        """Obtém todas as variáveis do servidor"""
+        from app.services.opcua_explorer import OPCUAExplorer
+        explorer = OPCUAExplorer(self)
+        return await explorer.get_all_variables(server_name)
+    
+    async def find_nodes(self, server_name: str, search_term: str) -> List[Dict[str, Any]]:
+        """Encontra nós por nome"""
+        from app.services.opcua_explorer import OPCUAExplorer
+        explorer = OPCUAExplorer(self)
+        return await explorer.find_node_by_name(server_name, search_term)
 
 # Instância global do gerenciador
 opcua_manager = OPCUAManager()

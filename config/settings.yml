@@ -18,11 +18,11 @@ opcua:
       username: null
       password: null
       
-    - name: "PLC_Line_2" 
-      endpoint: "opc.tcp://localhost:4841"  # Porta diferente se tiver outro servidor
-      security_policy: "None"  # Comece com "None"
-      username: null
-      password: null
+    # - name: "PLC_Line_2" 
+    #   endpoint: "opc.tcp://localhost:4841"  # Porta diferente se tiver outro servidor
+    #   security_policy: "None"  # Comece com "None"
+    #   username: null
+    #   password: null
 
 data_collection:
   enabled: true

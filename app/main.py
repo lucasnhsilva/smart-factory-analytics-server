@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from app.routers import health, config as config_router, opcua  # Renomear para evitar conflito
+from app.routers import health, config as config_router, opcua, opcua_explorer  # Renomear para evitar conflito
 from app.utils.config_loader import load_config
 from app.services.opcua_manager import opcua_manager
 
@@ -28,6 +28,8 @@ app = FastAPI(
 app.include_router(health.router, prefix=apiprefix, tags=["health"])
 app.include_router(config_router.router, prefix=apiprefix, tags=["config"])
 app.include_router(opcua.router, prefix=apiprefix, tags=["opcua"])
+app.include_router(opcua_explorer.router, prefix=apiprefix, tags=["opcua_explorer"])
+
 
 @app.get("/")
 async def root():
