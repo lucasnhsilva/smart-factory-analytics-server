@@ -525,6 +525,21 @@ pytz = "*"
 encryption = ["cryptography"]
 
 [[package]]
+name = "pycomm3"
+version = "1.2.14"
+description = "A Python Ethernet/IP library for communicating with Allen-Bradley PLCs."
+optional = false
+python-versions = ">=3.6.1"
+groups = ["main"]
+files = [
+    {file = "pycomm3-1.2.14-py3-none-any.whl", hash = "sha256:49cd78b13bddf2ff234f77dc1d9048f5e139ac6fa2b77c7320aa2b90eb5c4ace"},
+    {file = "pycomm3-1.2.14.tar.gz", hash = "sha256:ffabe89cda3df733fc046e261c15d263134f2f35d7dbb6aedf788203a10615b7"},
+]
+
+[package.extras]
+tests = ["pytest"]
+
+[[package]]
 name = "pycparser"
 version = "2.23"
 description = "C parser in Python"
@@ -921,4 +936,4 @@ standard = ["colorama (>=0.4) ; sys_platform == \"win32\"", "httptools (>=0.6.3)
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13"
-content-hash = "1d5b9b8aef4512a342a2bb64af12b6a3c2cee0690631b3dc450eec673bf68fe8"
+content-hash = "9c46f67b0622e29c0ded376f6e1802d5b5fcafa539bed67d5c47e36be629056a"

@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  smii_analytics:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: smii_analytics
+    environment:
+      - DATABASE_URL=postgresql://postgres:smartfactory@smii_db:5432/smartfactory
+      - ENV=development
+    ports:
+      - "8000:8000"
+    networks:
+      - smii_net
+    volumes:
+      - ./app:/app/app # Hot Reload
+    depends_on:
+      - smii_db
+
+networks:
+  smii_net:
+    external: true
